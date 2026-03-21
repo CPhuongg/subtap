@@ -1,0 +1,12 @@
+{
+  "name": "subtap",
+  "version": "1.0.0",
+  "description": "Tap to sync subtitles",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^latest"
+  }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subtap - Subtitle Editor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Subtap</h1>
+            <button id="themeToggle" class="theme-toggle">Theme</button>
+        </div>
+    </header>
+    
+    <main>
+        <div class="left-panel">
+            <video id="video" controls></video>
+            <input type="file" id="videoInput" accept="video/*">
+            
+            <div class="controls">
+                <button id="markBtn">Mark</button>
+                <button id="undoBtn">Undo</button>
+                <button id="clearBtn">Clear</button>
+                <button id="exportBtn">Export</button>
+                <input type="file" id="srtInput" accept=".srt">
+                <select id="displayMode">
+                    <option value="replace">Lyrics 1</option>
+                    <option value="second">Lyrics 2</option>
+                    <option value="merge">Merge</option>
+                </select>
+            </div>
+            
+            <div class="beat-controls">
+                <label>
+                    <input type="checkbox" id="snapToBeat" checked> Snap to beat
+                </label>
+                <select id="snapSensitivity">
+                    <option value="0.05">Very tight (±0.05s)</option>
+                    <option value="0.1" selected>Normal (±0.1s)</option>
+                    <option value="0.2">Loose (±0.2s)</option>
+                </select>
+                <div class="button-group">
+                    <button id="analyzeBeatBtn">Analyze</button>
+                    <button id="snapAllBtn">Snap all</button>
+
+                </div>
+            </div>
+            
+            <div class="lyrics-container">
+                <textarea id="lyricsInput1" placeholder="Lyrics track 1..."></textarea>
+                <textarea id="lyricsInput2" placeholder="Lyrics track 2..."></textarea>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <h3>Timestamps</h3>
+            <div id="timestamps"></div>
+        </div>
+    </main>
+    
+    <script src="app.js"></script>
+</body>
+</html>
