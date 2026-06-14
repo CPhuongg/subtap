@@ -419,8 +419,10 @@ function snapAllTimestamps() {
         
         if (bestBeat !== segment.time) {
             segment.time = bestBeat;
-            usedBeats.add(bestBeat);
             segment.snapped = true;
+        }
+        if (minDiff !== Infinity) {
+            usedBeats.add(bestBeat);
         }
         
         snappedSegments.push(segment);
