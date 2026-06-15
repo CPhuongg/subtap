@@ -17,6 +17,19 @@
     <main>
         <div class="left-panel">
             <video id="video" controls></video>
+
+            <div id="waveformContainer" class="waveform-container waveform-hidden">
+                <div class="waveform-toolbar">
+                    <span class="waveform-label">Waveform</span>
+                    <button type="button" id="waveformZoomInBtn"  class="waveform-btn">+</button>
+                    <button type="button" id="waveformZoomOutBtn" class="waveform-btn">−</button>
+                    <button type="button" id="waveformZoomResetBtn" class="waveform-btn">Fit</button>
+                    <span id="waveformTimeLabel" class="waveform-time-label"></span>
+                </div>
+                <canvas id="waveformCanvas"></canvas>
+                <canvas id="waveformScrollbar"></canvas>
+            </div>
+
             <input type="file" id="videoInput" accept="video/*">
             
             <div class="controls">

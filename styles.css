@@ -93,6 +93,63 @@ video {
     border-radius: 4px;
 }
 
+/* Waveform */
+.waveform-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.waveform-hidden {
+    display: none;
+}
+
+.waveform-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: var(--surface-light);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.75rem;
+}
+
+.waveform-label {
+    font-weight: bold;
+    color: var(--text-secondary);
+    margin-right: auto;
+}
+
+.waveform-btn {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+.waveform-time-label {
+    color: var(--primary);
+    font-family: monospace;
+    font-size: 0.7rem;
+    min-width: 80px;
+    text-align: right;
+}
+
+#waveformCanvas {
+    display: block;
+    width: 100%;
+    height: 100px;
+    cursor: crosshair;
+}
+
+#waveformScrollbar {
+    display: block;
+    width: 100%;
+    height: 18px;
+    cursor: pointer;
+    border-top: 1px solid var(--border);
+}
+
 /* Controls */
 .controls, .beat-controls {
     display: flex;

@@ -7,6 +7,9 @@
     "start": "electron ."
   },
   "devDependencies": {
-    "electron": "^latest"
+    "electron": "^28.0.0"
+  },
+  "dependencies": {
+    "playwright-core": "^1.60.0"
   }
 }
