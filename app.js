@@ -704,34 +704,58 @@ async function analyzeBeats() {
             }
         }
         
-        // Detect beats
-        beatTimes = [];
-        const avg = energy.reduce((a, b) => a + b, 0) / energy.length;
-        const threshold = avg * 1.5;
-        
-        for (let i = 2; i < energy.length - 2; i++) {
-            if (energy[i] > threshold &&
-                energy[i] > energy[i - 1] && energy[i] > energy[i - 2] &&
-                energy[i] > energy[i + 1] && energy[i] > energy[i + 2]) {
-                
-                const time = (i * hopSize) / sampleRate;
-                if (beatTimes.length === 0 || time - beatTimes[beatTimes.length - 1] > 0.1) {
-                    beatTimes.push(time);
-                }
-            }
+        // Onset strength: positive energy change (sensitive to transients, not sustained sound)
+        const onset = new Float32Array(energy.length);
+        for (let i = 1; i < energy.length; i++) {
+            onset[i] = Math.max(0, energy[i] - energy[i - 1]);
         }
-        
+
+        // Autocorrelation BPM estimation (60–200 BPM range)
+        const frameRate = sampleRate / hopSize;
+        const minLag = Math.max(1, Math.round(frameRate * 60 / 200));
+        const maxLag = Math.round(frameRate * 60 / 60);
+
+        let bestLag = minLag, bestCorr = -1;
+        for (let lag = minLag; lag <= maxLag; lag++) {
+            let corr = 0;
+            const n = onset.length - lag;
+            for (let i = 0; i < n; i++) corr += onset[i] * onset[i + lag];
+            corr /= n;
+            if (corr > bestCorr) { bestCorr = corr; bestLag = lag; }
+        }
+
+        // Double-tempo check: if half-lag has good correlation → prefer BPM × 2
+        // Fixes sub-harmonic detection (e.g. 93 detected instead of 149 BPM)
+        const halfLag = Math.round(bestLag / 2);
+        if (halfLag >= minLag) {
+            let halfCorr = 0;
+            const hn = onset.length - halfLag;
+            for (let i = 0; i < hn; i++) halfCorr += onset[i] * onset[i + halfLag];
+            halfCorr /= hn;
+            if (halfCorr >= bestCorr * 0.65) { bestLag = halfLag; bestCorr = halfCorr; }
+        }
+
+        const beatInterval = bestLag / frameRate;
+        const bpm = Math.round(60 / beatInterval);
+
+        // Phase estimation: find offset that best aligns beat grid to strong onsets
+        let bestPhase = 0, bestPhaseScore = -1;
+        for (let phaseOffset = 0; phaseOffset < bestLag; phaseOffset++) {
+            let score = 0;
+            for (let k = phaseOffset; k < onset.length; k += bestLag) score += onset[k];
+            if (score > bestPhaseScore) { bestPhaseScore = score; bestPhase = phaseOffset / frameRate; }
+        }
+
+        // Generate evenly spaced beat grid
+        beatTimes = [];
+        for (let t = bestPhase; t <= buffer.duration; t += beatInterval) beatTimes.push(t);
+        for (let t = bestPhase - beatInterval; t >= 0; t -= beatInterval) beatTimes.unshift(t);
+        beatTimes = beatTimes.filter(t => t >= 0 && t <= buffer.duration);
+
         // Show results
         if (analyzeBeatBtn) analyzeBeatBtn.textContent = `🎵 ${beatTimes.length} beats`;
         renderTimestamps();
-        
-        if (beatTimes.length > 1) {
-            const avgInterval = (beatTimes[beatTimes.length - 1] - beatTimes[0]) / (beatTimes.length - 1);
-            const bpm = Math.round(60 / avgInterval);
-            alert(`Found ${beatTimes.length} beats\nEstimated BPM: ~${bpm}`);
-        } else {
-            alert(`Found ${beatTimes.length} beats`);
-        }
+        alert(`BPM: ${bpm}\nBeats: ${beatTimes.length} (evenly spaced)`);
         
     } catch (error) {
         console.error("Beat analysis error:", error);
