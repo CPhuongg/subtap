@@ -24,20 +24,30 @@
                     <button type="button" id="waveformZoomInBtn"  class="waveform-btn">+</button>
                     <button type="button" id="waveformZoomOutBtn" class="waveform-btn">−</button>
                     <button type="button" id="waveformZoomResetBtn" class="waveform-btn">Fit</button>
+                    <button type="button" id="spectrogramBtn" class="waveform-btn">Spectrogram</button>
                     <span id="waveformTimeLabel" class="waveform-time-label"></span>
                 </div>
                 <canvas id="waveformCanvas"></canvas>
                 <canvas id="waveformScrollbar"></canvas>
             </div>
 
-            <input type="file" id="videoInput" accept="video/*">
-            
+            <div class="file-input-group">
+                <label for="videoInput" class="file-btn">🎬 Chọn video</label>
+                <span id="videoInputName" class="file-name">Chưa chọn file</span>
+                <input type="file" id="videoInput" accept="video/*" hidden>
+            </div>
+
             <div class="controls">
                 <button id="markBtn">Mark</button>
                 <button id="undoBtn">Undo</button>
+                <button id="redoBtn">Redo</button>
                 <button id="clearBtn">Clear</button>
-                <button id="exportBtn">Export</button>
-                <input type="file" id="srtInput" accept=".srt">
+                <button id="exportBtn">Export SRT</button>
+                <button id="saveProjectBtn">Lưu Project</button>
+                <label for="loadProjectInput" class="file-btn">📂 Mở Project</label>
+                <input type="file" id="loadProjectInput" accept=".json" hidden>
+                <label for="srtInput" class="file-btn">📄 Import SRT</label>
+                <input type="file" id="srtInput" accept=".srt" hidden>
                 <select id="displayMode">
                     <option value="replace">Lyrics 1</option>
                     <option value="second">Lyrics 2</option>

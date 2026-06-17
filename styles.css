@@ -150,6 +150,49 @@ video {
     border-top: 1px solid var(--border);
 }
 
+/* File input groups */
+.file-input-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--surface);
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+.file-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.file-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.file-name {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-family: monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 220px;
+}
+
 /* Controls */
 .controls, .beat-controls {
     display: flex;
@@ -230,8 +273,10 @@ textarea:focus {
 }
 
 .timestamp-item {
+    cursor: pointer;
     padding: 0.5rem;
     border-bottom: 1px solid var(--border);
+    transition: background 0.15s ease, padding 0.2s ease;
 }
 
 .timestamp-item:hover {
@@ -242,12 +287,67 @@ textarea:focus {
     color: var(--primary);
     font-weight: bold;
     font-size: 0.7rem;
+    padding-left: 4px;
+    border-left: 2px solid rgba(16, 185, 129, 0.3);
+    transition: font-size 0.2s ease, border-color 0.2s ease;
 }
 
 .timestamp-text {
     color: var(--text-secondary);
     font-size: 0.75rem;
     margin-top: 0.25rem;
+}
+
+.timestamp-active {
+    background: rgba(16, 185, 129, 0.15);
+    border-left: 3px solid var(--primary);
+    padding: 0.75rem 0.5rem;
+}
+
+.timestamp-active .timestamp-time {
+    color: #10b981;
+    font-size: 0.85rem;
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    border-left-color: var(--primary);
+    border-left-width: 3px;
+}
+
+.timestamp-active .timestamp-time::before {
+    content: "▶ ";
+    font-size: 0.65rem;
+    vertical-align: middle;
+    opacity: 0.9;
+}
+
+.timestamp-active .timestamp-time::after {
+    content: " ◀";
+    font-size: 0.65rem;
+    vertical-align: middle;
+    opacity: 0.9;
+}
+
+.timestamp-active .timestamp-text {
+    color: var(--text);
+    font-size: 0.8rem;
+}
+
+.timestamp-selected {
+    background: var(--surface);
+    border-left: 2px solid var(--primary);
+    outline: 1px solid var(--primary);
+}
+
+.timestamp-inline-edit {
+    background: var(--surface-light);
+    border: 1px solid var(--primary);
+    color: var(--text);
+    font-family: monospace;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    width: 100%;
+    outline: none;
+    display: block;
 }
 
 .next-line {
